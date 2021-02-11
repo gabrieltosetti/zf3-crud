@@ -1,0 +1,31 @@
+version: "3.3"
+services:
+  zf:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www
+    networks:
+      - mysql-compose-network
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: "zend3-teste"
+      MYSQL_ROOT_PASSWORD: "root"
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
+    volumes:
+      - my-db:/var/lib/mysql
+    networks:
+      - mysql-compose-network
+
+volumes:
+  my-db:
+
+networks: 
+  mysql-compose-network:
+    driver: bridge
