@@ -1,30 +1,13 @@
-CREATE TABLE album (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    artist varchar(100) NOT NULL,
-    title varchar(100) NOT NULL
+CREATE TABLE tb_categoria_produto (
+    id_categoria_planejamento INT PRIMARY KEY AUTO_INCREMENT,
+    nome_categoria VARCHAR(150) NOT NULL
 );
 
-INSERT INTO
-    album (artist, title)
-VALUES
-    ('The Military Wives', 'In My Dreams');
-
-INSERT INTO
-    album (artist, title)
-VALUES
-    ('Adele', '21');
-
-INSERT INTO
-    album (artist, title)
-VALUES
-    ('Bruce Springsteen', 'Wrecking Ball (Deluxe)');
-
-INSERT INTO
-    album (artist, title)
-VALUES
-    ('Lana Del Rey', 'Born To Die');
-
-INSERT INTO
-    album (artist, title)
-VALUES
-    ('Gotye', 'Making Mirrors');
+CREATE TABLE tb_produto (
+    id_produto INT PRIMARY KEY AUTO_INCREMENT,
+    id_categoria_produto INT NOT NULL,
+    data_cadastro DATETIME DEFAULT NOW(),
+    nome_produto VARCHAR(150) NOT NULL,
+    valor_produto DECIMAL(10, 2) NOT NULL,
+  CONSTRAINT `IXFK_tb_produto_tb_categoria_produto` FOREIGN KEY (`id_categoria_produto`) REFERENCES `tb_categoria_produto` (`id_categoria_planejamento`)
+);
