@@ -10,7 +10,7 @@
     ],
     "homepage": "http://framework.zend.com/",
     "require": {
-        "php": "^5.6 || ^7.0",
+        "php": "^7.2",
         "zendframework/zend-mvc": "^3.1.1",
         "zfcampus/zf-development-mode": "^3.2",
         "zendframework/zend-db": "^2.11",
@@ -33,10 +33,6 @@
         "development-disable": "zf-development-mode disable",
         "development-enable": "zf-development-mode enable",
         "development-status": "zf-development-mode status",
-        "post-create-project-cmd": [
-            "@development-enable",
-            "php bin/update-gitignore.php"
-        ],
         "serve": "php -S 0.0.0.0:8080 -t public",
         "test": "phpunit"
     }
