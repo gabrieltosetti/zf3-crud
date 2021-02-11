@@ -14,7 +14,7 @@
 return [
     'db' => [
         'driver' => 'Pdo',
-        'dsn' => 'mysql:dbname=zend3-teste;host=db:3306',
+        'dsn' => 'mysql:dbname=zf3-crud;host=db:3306',
         'username' => 'root', 
         'password' => 'root', 
         'driver_options' => [
