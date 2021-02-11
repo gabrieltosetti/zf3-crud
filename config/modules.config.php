@@ -21,4 +21,5 @@ return [
     'Zend\Validator',
     'Application',
     'Album',
+    'Categoria',
 ];

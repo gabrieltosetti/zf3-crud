@@ -1,0 +1,31 @@
+<?php
+$title = 'Nova categoria';
+$this->headTitle($title);
+?>
+
+<h1><?= $this->escapeHtml($title) ?></h1>
+
+<?php
+$nomeCategoria = $form->get('nome_categoria');
+$nomeCategoria->setAttribute('class', 'form-control');
+$nomeCategoria->setAttribute('placeholder', 'categoria');
+
+$submit = $form->get('submit');
+$submit->setAttribute('class', 'btn btn-primary');
+
+$form->setAttribute('action', $this->url('categoria', ['action' => 'add']));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+?>
+
+<div class="form-group">
+    <?= $this->formLabel($nomeCategoria) ?>
+    <?= $this->formElement($nomeCategoria) ?>
+    <?= $this->formElementErrors()->render($nomeCategoria, ['class' => 'help-block']) ?>
+</div>
+
+<?php
+echo $this->formSubmit($submit);
+echo $this->formHidden($form->get('id_categoria_planejamento'));
+echo $this->form()->closeTag();
