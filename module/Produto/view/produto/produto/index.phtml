@@ -9,16 +9,16 @@ $this->headTitle($title);
 
 <table class="table">
     <tr>
-        <th>Categoria</th>
         <th>Produto</th>
+        <th>Categoria</th>
         <th>Valor</th>
         <th>Data Cadastro</th>
         <th>&nbsp;</th>
     </tr>
     <?php foreach ($produtos as $produto) : ?>
         <tr>
-            <td><?= $this->escapeHtml($produto->nome_categoria) ?></td>
             <td><?= $this->escapeHtml($produto->nome_produto) ?></td>
+            <td><?= $this->escapeHtml($produto->nome_categoria) ?></td>
             <td><?= $this->escapeHtml($produto->valor_produto) ?></td>
             <td><?= $this->escapeHtml($produto->data_cadastro) ?></td>
             <td>
