@@ -54,9 +54,10 @@ class ProdutoController extends AbstractActionController
             return ['form' => $form, 'categorias' => $arCategorias];
         }
 
+        $produto->exchangeArray($form->getData());
+
         $this->categoriaTable->getCategoria($produto->id_categoria_produto);
 
-        $produto->exchangeArray($form->getData());
         $this->table->saveProduto($produto);
         return $this->redirect()->toRoute('produto');
     }

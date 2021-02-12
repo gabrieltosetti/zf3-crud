@@ -20,6 +20,7 @@ class ProdutoForm extends Form
             'type' => 'select',
             'options' => [
                 'label' => 'Categoria',
+                'disable_inarray_validator' => true
             ],
         ]);
         $this->add([
