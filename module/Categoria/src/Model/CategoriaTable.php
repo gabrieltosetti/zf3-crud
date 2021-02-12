@@ -3,13 +3,13 @@
 namespace Categoria\Model;
 
 use RuntimeException;
-use Zend\Db\TableGateway\TableGatewayInterface;
+use Zend\Db\TableGateway\TableGateway;
 
 class CategoriaTable
 {
-    private $tableGateway;
+    private TableGateway $tableGateway;
 
-    public function __construct(TableGatewayInterface $tableGateway)
+    public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
@@ -32,6 +32,19 @@ class CategoriaTable
         }
 
         return $row;
+    }
+
+    public function getProdutosDaCategoria(int $idCategoria)
+    {
+        $joinSelect = $this->tableGateway->getsql()->select();
+        $joinSelect->join(
+                'tb_produto',
+                'tb_categoria_produto.id_categoria_planejamento = tb_produto.id_categoria_produto',
+                []
+            )
+            ->where(['tb_produto.id_categoria_produto' => $idCategoria]);
+
+        return $this->tableGateway->selectWith($joinSelect);
     }
 
     public function saveCategoria(Categoria $categoria)

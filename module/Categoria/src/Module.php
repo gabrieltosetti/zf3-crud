@@ -24,9 +24,7 @@ class Module implements ConfigProviderInterface
                 },
                 Model\CategoriaTableGateway::class => function ($container) {
                     $dbAdapter = $container->get(AdapterInterface::class);
-                    $resultSetPrototype = new ResultSet();
-                    $resultSetPrototype->setArrayObjectPrototype(new Model\Categoria());
-                    return new TableGateway('tb_categoria_produto', $dbAdapter, null, $resultSetPrototype);
+                    return new TableGateway('tb_categoria_produto', $dbAdapter);
                 },
             ],
         ];

@@ -2,6 +2,10 @@
 $title = 'Categorias';
 $this->headTitle($title);
 ?>
+
+<?php if (!empty($msgErro = $this->params()->fromQuery('msgErro', null))): ?>
+    <div class="alert alert-danger" role="alert"><?= $msgErro ?></div>
+<?php endif ?>
 <h1><?= $this->escapeHtml($title) ?></h1>
 <p>
     <a href="<?= $this->url('categoria', ['action' => 'add']) ?>">Nova categoria</a>

@@ -102,21 +102,31 @@ class CategoriaController extends AbstractActionController
 
         /** @var \Zend\Http\Request */
         $request = $this->getRequest();
-        if ($request->isPost()) {
-            $del = $request->getPost('del', 'No');
 
-            if ($del == 'Yes') {
-                $id = (int) $request->getPost('id');
-                $this->table->deleteCategoria($id);
-            }
-
-            // Redirect to list of categorias
-            return $this->redirect()->toRoute('categoria');
+        if (!$request->isPost()) {
+            return [
+                'id'        => $id,
+                'categoria' => $this->table->getCategoria($id),
+            ];
         }
 
-        return [
-            'id'    => $id,
-            'categoria' => $this->table->getCategoria($id),
-        ];
+        $del = $request->getPost('del', 'No');
+
+        if ($del == 'Yes') {
+            $id = (int) $request->getPost('id');
+
+            if ($qtdProdutos = count($this->table->getProdutosDaCategoria($id))) {
+                return $this->redirect()->toRoute(
+                    'categoria',
+                    [],
+                    ['query' => ['msgErro' => "Para deletar esta categoria, excluia primeiramente o(s) {$qtdProdutos} produto(s) cadastrado(s)"]]
+                );
+            }
+
+            $this->table->deleteCategoria($id);
+        }
+
+        // Redirect to list of categorias
+        return $this->redirect()->toRoute('categoria');
     }
 }

@@ -23,4 +23,5 @@ return [
     'Album',
     'Categoria',
     'Produto',
+    'ParamsHelper',
 ];
