@@ -36,5 +36,7 @@ if (file_exists(__DIR__ . '/../config/development.config.php')) {
     $appConfig = ArrayUtils::merge($appConfig, require __DIR__ . '/../config/development.config.php');
 }
 
+date_default_timezone_set('America/Recife');
+
 // Run the application!
 Application::init($appConfig)->run();
