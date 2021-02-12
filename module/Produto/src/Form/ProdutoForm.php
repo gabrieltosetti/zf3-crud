@@ -2,6 +2,7 @@
 
 namespace Produto\Form;
 
+use Categoria\Model\CategoriaTable;
 use Zend\Form\Form;
 
 class ProdutoForm extends Form
@@ -16,7 +17,7 @@ class ProdutoForm extends Form
         ]);
         $this->add([
             'name' => 'id_categoria_produto',
-            'type' => 'number',
+            'type' => 'select',
             'options' => [
                 'label' => 'Categoria',
             ],

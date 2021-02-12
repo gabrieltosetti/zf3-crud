@@ -2,6 +2,7 @@
 
 namespace Produto\Controller;
 
+use Categoria\Model\CategoriaTable;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Produto\Form\ProdutoForm;
@@ -11,16 +12,18 @@ use Produto\Model\ProdutoTable;
 class ProdutoController extends AbstractActionController
 {
     private $table;
+    private $categoriaTable;
 
-    public function __construct(ProdutoTable $table)
+    public function __construct(ProdutoTable $table, CategoriaTable $categoriaTable)
     {
         $this->table = $table;
+        $this->categoriaTable = $categoriaTable;
     }
 
     public function indexAction()
     {
         return new ViewModel([
-            'produtos' => $this->table->fetchAll(),
+            'produtos' => $this->table->getProdutosJoinCategorias(),
         ]);
     }
 
@@ -32,8 +35,15 @@ class ProdutoController extends AbstractActionController
         /** @var \Zend\Http\Request */
         $request = $this->getRequest();
 
+        $categorias = $this->categoriaTable->fetchAll();
+        $arCategorias = [];
+
+        foreach ($categorias as $c) {
+            $arCategorias[$c->id_categoria_planejamento] = $c->nome_categoria;
+        }
+
         if (!$request->isPost()) {
-            return ['form' => $form];
+            return ['form' => $form, 'categorias' => $arCategorias];
         }
 
         $produto = new Produto();
@@ -41,9 +51,10 @@ class ProdutoController extends AbstractActionController
         $form->setData($request->getPost());
 
         if (!$form->isValid()) {
-            var_dump($form->getMessages());
-            return ['form' => $form];
+            return ['form' => $form, 'categorias' => $arCategorias];
         }
+
+        $this->categoriaTable->getCategoria($produto->id_categoria_produto);
 
         $produto->exchangeArray($form->getData());
         $this->table->saveProduto($produto);
@@ -54,13 +65,13 @@ class ProdutoController extends AbstractActionController
     {
         $id = (int) $this->params()->fromRoute('id', 0);
 
-        if (0 === $id) {
+        if (!$id) {
             return $this->redirect()->toRoute('produto', ['action' => 'add']);
         }
 
         try {
             $produto = $this->table->getProduto($id);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return $this->redirect()->toRoute('produto', ['action' => 'index']);
         }
 
@@ -70,7 +81,15 @@ class ProdutoController extends AbstractActionController
 
         /** @var \Zend\Http\Request */
         $request = $this->getRequest();
-        $viewData = ['id' => $id, 'form' => $form];
+
+        $categorias = $this->categoriaTable->fetchAll();
+        $arCategorias = [];
+
+        foreach ($categorias as $c) {
+            $arCategorias[$c->id_categoria_planejamento] = $c->nome_categoria;
+        }
+
+        $viewData = ['id' => $id, 'form' => $form, 'categorias' => $arCategorias];
 
         if (!$request->isPost()) {
             return $viewData;

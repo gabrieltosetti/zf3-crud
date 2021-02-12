@@ -8,9 +8,11 @@ $this->headTitle($title);
 <h1><?= $this->escapeHtml($title) ?></h1>
 <?php
 
+/** @var \Zend\Form\Element\Select */
 $idCategoria = $form->get('id_categoria_produto');
 $idCategoria->setAttribute('class', 'form-control');
 $idCategoria->setAttribute('placeholder', 'ID Categoria');
+$idCategoria->setValueOptions($categorias ?: []);
 
 $nomeProduto = $form->get('nome_produto');
 $nomeProduto->setAttribute('class', 'form-control');

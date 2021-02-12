@@ -19,15 +19,15 @@ class CategoriaTable
         return $this->tableGateway->select();
     }
 
-    public function getCategoria($id_categoria_planejamento)
+    public function getCategoria($id)
     {
-        $id_categoria_planejamento = (int) $id_categoria_planejamento;
-        $rowset = $this->tableGateway->select(['id_categoria_planejamento' => $id_categoria_planejamento]);
+        $id = (int) $id;
+        $rowset = $this->tableGateway->select(['id_categoria_planejamento' => $id]);
         $row = $rowset->current();
         if (!$row) {
             throw new RuntimeException(sprintf(
                 'Could not find row with identifier %d',
-                $id_categoria_planejamento
+                $id
             ));
         }
 

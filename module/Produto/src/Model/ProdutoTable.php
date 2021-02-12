@@ -3,25 +3,42 @@
 namespace Produto\Model;
 
 use RuntimeException;
-use Zend\Db\TableGateway\TableGatewayInterface;
+use Zend\Db\TableGateway\TableGateway;
+use Zend\Db\ResultSet\ResultSet;
 
 class ProdutoTable
 {
-    private $tableGateway;
+    private TableGateway $tableGateway;
 
-    public function __construct(TableGatewayInterface $tableGateway)
+    public function __construct(TableGateway $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
 
-    public function fetchAll()
+    public function fetchAll(): ResultSet
     {
         return $this->tableGateway->select();
     }
 
-    public function getProduto($id)
+    public function getProdutosJoinCategorias(): ResultSet
     {
-        $id = (int) $id;
+        $joinSelect = $this->tableGateway->getsql()->select();
+        $joinSelect->join(
+            'tb_categoria_produto',
+            'tb_categoria_produto.id_categoria_planejamento = tb_produto.id_categoria_produto',
+            'nome_categoria',
+            \Zend\Db\Sql\Select::JOIN_LEFT
+        );
+
+        return $this->tableGateway->selectWith($joinSelect);
+    }
+
+    public function getProduto(int $id)
+    {
+        if (!$id) {
+            throw new \Exception('Id do produto não informado.');
+        }
+
         $rowset = $this->tableGateway->select(['id_produto' => $id]);
         $row = $rowset->current();
         if (!$row) {
@@ -58,7 +75,7 @@ class ProdutoTable
         $this->tableGateway->update($data, ['id_produto' => $id]);
     }
 
-    public function deleteProduto($id)
+    public function deleteProduto($id): void
     {
         $this->tableGateway->delete(['id_produto' => (int) $id]);
     }

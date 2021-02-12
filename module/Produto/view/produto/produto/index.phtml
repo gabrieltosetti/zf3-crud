@@ -17,7 +17,7 @@ $this->headTitle($title);
     </tr>
     <?php foreach ($produtos as $produto) : ?>
         <tr>
-            <td><?= $this->escapeHtml($produto->id_categoria_produto) ?></td>
+            <td><?= $this->escapeHtml($produto->nome_categoria) ?></td>
             <td><?= $this->escapeHtml($produto->nome_produto) ?></td>
             <td><?= $this->escapeHtml($produto->valor_produto) ?></td>
             <td><?= $this->escapeHtml($produto->data_cadastro) ?></td>
